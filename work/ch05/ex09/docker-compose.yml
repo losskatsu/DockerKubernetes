@@ -1,0 +1,39 @@
+version: "3"	
+
+services:	
+  djangotest:	
+    build: ./myDjango03	
+    networks:		
+      - composenet01
+    depends_on:	
+      - postgrestest
+    restart: always
+
+  nginxtest:		
+    build: ./myNginx03
+    networks:
+      - composenet01
+    ports:	
+      - "80:80"
+    depends_on:
+      - djangotest
+    restart: always
+
+  postgrestest:	
+    build: ./myPostgres03
+    networks:
+      - composenet01
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: postgres
+    volumes:	
+      - composevol01:/var/lib/postgresql/data
+    restart: always	
+
+networks:
+  composenet01:
+
+volumes:	
+  composevol01:
+

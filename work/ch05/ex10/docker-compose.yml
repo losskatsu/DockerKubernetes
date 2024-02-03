@@ -1,0 +1,21 @@
+version: "3"	
+
+services:	
+  djangotest:	
+    build: ./myDjango04	
+    networks:		
+      - composenet01
+    restart: always
+
+  nginxtest:		
+    build: ./myNginx04
+    networks:
+      - composenet01
+    ports:	
+      - "80:80"
+    depends_on:
+      - djangotest
+    restart: always
+
+networks:
+  composenet01:

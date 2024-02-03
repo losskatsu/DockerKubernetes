@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  flasktest:
+    build: ./myFlask03
+    networks:
+      - composenet03
+    restart: always
+
+  nginxtest:
+    build: ./myNginx03f
+    networks:
+      - composenet03
+    ports:
+      - "81:81"
+    depends_on:
+      - flasktest
+    restart: always
+
+networks:
+  composenet03:
